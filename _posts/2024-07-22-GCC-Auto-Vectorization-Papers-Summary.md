@@ -237,7 +237,7 @@
 >
 >    1. interleaving分析：从下至上扫描循环内的所有语句以构建computation-tree，扫描时首先找到interleaved store group（几条写连续地址的store语句）作为计算树的根节点，然后根据use-def链递归的寻找store语句中RHS的Def，直到找到计算树的叶节点则停止，叶节点即loop-invariant或者interleaved memory address，下面是计算树的例子：
 >
->       <img src="/Users/zhoualec/Library/Application Support/typora-user-images/image-20240914171949404.png" alt="image-20240914171949404" style="zoom:30%;" />
+>       <img src="../assets/img/image-20240914171949404.png" alt="image-20240914171949404" style="zoom:30%;" />
 >
 >       此外，Reduction的分析过程略有不同，其根节点是reduction computation stmt。接下来需要确定UF(Unrolling Factor)以及通过遍历计算树来进行Data Dependency分析。
 >
@@ -343,11 +343,11 @@
 >
 >    7. 调度：Group中原有的语句顺序可能会有依赖，可以通过调换语句的顺序来消除依赖，但是一旦出现循环依赖，则无法消除，只能去掉一个Group，比如Figure 6中的例子。
 >
->       <img src="/Users/zhoualec/Library/Application Support/typora-user-images/image-20240918160032790.png" alt="image-20240918160032790" style="zoom:50%;" />
+>       <img src="../assets/img/image-20240918160032790.png" alt="Group-Dependency" style="zoom:50%;" />
 >
 >       **下图是SLP的范例：**
 >
->    ![SLP范例](/Users/zhoualec/Library/Application Support/typora-user-images/image-20240918155206111.png)
+>    <img src="../assets/img/image-20240918155206111.png" alt="SLP-Packing-Example" style="zoom:50%;" />
 >
 > 3. SLP算法的伪代码
 
