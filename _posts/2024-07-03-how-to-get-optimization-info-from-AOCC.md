@@ -15,10 +15,13 @@ clang -O3 -Rpass=vector -Rpass-analysis=vector -Rpass-missed=vector -S xx.c #可
 
 ```bash
 # 先打印所有Pass产生的IR
-clang -O3 -mllvm -print-before-all -mllvm -print-module-scope -S xx.c &> output.txt
+clang -O3 -emit-llvm -mllvm -print-before-all -mllvm -print-module-scope -S xx.c &> output.txt
 # 在输出文件中找到对应的Pass，即可摘出所需要的IR，比如在output.txt中摘出SLPVectorizer Pass执行前的IR，形成before.ll文件
 opt -o asm.s -S -p slp-vectorizer -debug-only=slp-vectorizer before.ll
 # 上述指令要执行成功，必须使用assertions enabled版本的opt，也就是build opt的时候打开assertion开关（AOCC不需要编译，所以似乎做不到，只有llvm能做到）。执行成功后会打印slp这个pass的执行过程
 # 上述两条指令执行后，可以得到before.ll和asm.s两个文件，分别记录着SLP Pass执行前的LLVM IR以及执行后的汇编，可以通过对比这两个文件的内容来推测AOCC的优化思路
 ```
 
+#### References
+
+- https://groups.google.com/g/llvm-dev/c/0U9b2O0lXSY
