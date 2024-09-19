@@ -24,7 +24,7 @@ footer:
   since: 2024
 
 # Author 配置博主信息
-author: '周天阳'
+author: 'Tianyang.Chou'
 nickname: 'Aaron Chou'
 bio: '新手程序员'
 avatar: '/assets/img/profile.png'
@@ -37,7 +37,7 @@ nightMode: true
 
 # Comments 评论功能
 comments:
-  disqus: false
+  disqus: true
   disqus_url: 'https://liaokeyu.disqus.com/embed.js'
 
 # MathJax 公式支持 by Ray-Eldath

@@ -163,73 +163,52 @@
 >
 > 1. 主要思想以及范例：
 >
->    > // Scalar:
->    >
->    > for(i = 0; i < n; i++) {
->    >
->    > ​	t1 = b[2i];
->    >
->    > ​	t2 = b[2i+1];
->    >
->    > ​	a[2i] = t1;
->    >
->    > ​	a[2i+1] = t2;
->    >
->    > ​	c[i] = C;
->    >
->    > }
->    >
->    > // SLP:
->    >
->    > for(i = 0; i < n; i++) {
->    >
->    > ​	vt = b[2i:2i+1];
->    >
->    > ​	a[2i:2i+1] = vt;
->    >
->    > ​	c[i] = C;
->    >
->    > }
->    >
->    > // Loop-based:
->    >
->    > vc = {C, C};
->    >
->    > for(i = 0; i < n; i+=2) {
->    >
->    > ​	vb1 = b[2i:2i+1];
->    >
->    > ​	vb2 = b[2i+2:2i+3];
->    >
->    > ​	vt1 = extract_even(vb1, vb2);
->    >
->    > ​	vt2 = extract_odd(vb1, vb2);
->    >
->    > ​	va1 = interleave_high(vt1, vt2);
->    >
->    > ​	va2 = interleave_low(vt1, vt2);
->    >
->    > ​	a[2i:2i+1] = va1;
->    >
->    > ​	a[2i+2:2i+3] = va2;
->    >
->    > ​	c[i:i+1] = vc;
->    >
->    > }
->    >
->    > //loop-aware SLP:
->    >
->    > vc = {C, C};
->    >
->    > for(i = 0; i < n; i+=2) {
->    >
->    > ​	vb1 = b[2i:2i+1];
->    > ​	vb2 = b[2i+2:2i+3];
->    > ​	a[2i:2i+1] = vb1;
->    > ​	a[2i+2:2i+3] = vb2;
->    > ​	c[i:i+1] = vc;
->    >
->    > }
+> ```c
+> // Scalar:
+> for(i = 0; i < n; i++) {
+> 	t1 = b[2i];
+> 	t2 = b[2i+1];
+>   
+> 	a[2i] = t1;
+> 	a[2i+1] = t2;
+>   
+> 	c[i] = C;
+> }
+> // SLP
+> for(i = 0; i < n; i++) {
+> 	vt = b[2i:2i+1];
+> 	a[2i:2i+1] = vt;
+> 	c[i] = C;
+> }
+> // Loop-based:
+> vc = {C, C};
+> for(i = 0; i < n; i+=2) {
+> 	vb1 = b[2i:2i+1];
+> 	vb2 = b[2i+2:2i+3];
+>   
+>   vt1 = extract_even(vb1, vb2);
+> 	vt2 = extract_odd(vb1, vb2);
+> 
+> 	va1 = interleave_high(vt1, vt2);
+> 	va2 = interleave_low(vt1, vt2);
+> 
+> 	a[2i:2i+1] = va1;
+> 	a[2i+2:2i+3] = va2;
+>   
+> 	c[i:i+1] = vc;
+> }
+> //loop-aware SLP:
+> vc = {C, C};
+> for(i = 0; i < n; i+=2) {
+> 	vb1 = b[2i:2i+1];
+> 	vb2 = b[2i+2:2i+3];
+>   
+> 	a[2i:2i+1] = vb1;
+> 	a[2i+2:2i+3] = vb2;
+>   
+> 	c[i:i+1] = vc;
+> }
+> ```
 >
 > 2. 现有的仅有Loop-based方法的Vectorizer实现
 >
